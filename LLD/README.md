@@ -1,6 +1,32 @@
+[Singleton Instance: Double Check Locking](https://github.com/erketananand/dev-handbook/tree/main/LLD#singleton-instance-double-check-locking)
+
 [Avoid double booking in Distributed System](https://github.com/erketananand/dev-handbook/tree/main/LLD#avoid-double-booking-in-distributed-system)
 
 [How to Prevent Double Payment](https://github.com/erketananand/dev-handbook/tree/main/LLD#how-to-prevent-double-payment)
+
+# Singleton Instance: Double Check Locking
+```java
+public class Singleton {
+    // volatile is critical here
+    private static volatile Singleton instance;
+
+    // Private constructor prevents instantiation
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {                 // First check (no locking)
+            synchronized (Singleton.class) {
+                if (instance == null) {         // Second check (with locking)
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+---
 
 # Avoid double booking in Distributed System
 Node.js is single-threaded per process(app instance), but in production we usually run:
