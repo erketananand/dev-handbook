@@ -1,6 +1,6 @@
 [Avoid double booking in Distributed System](https://github.com/erketananand/dev-handbook/tree/main/LLD#avoid-double-booking-in-distributed-system)
 
-[How to Prevent Double Payment](https://github.com/erketananand/dev-handbook/edit/main/LLD/README.md#how-to-prevent-double-payment)
+[How to Prevent Double Payment](https://github.com/erketananand/dev-handbook/tree/main/LLD#how-to-prevent-double-payment)
 
 # Avoid double booking in Distributed System
 Node.js is single-threaded per process(app instance), but in production we usually run:
