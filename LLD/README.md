@@ -1,3 +1,5 @@
+[How to approach a LLD Interview Problem](https://blog.algomaster.io/p/how-to-answer-a-lld-interview-problem)
+
 [Singleton Instance: Double Check Locking](https://github.com/erketananand/dev-handbook/tree/main/LLD#singleton-instance-double-check-locking)
 
 [Avoid double booking in Distributed System](https://github.com/erketananand/dev-handbook/tree/main/LLD#avoid-double-booking-in-distributed-system)
