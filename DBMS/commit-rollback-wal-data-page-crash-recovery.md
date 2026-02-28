@@ -1,6 +1,6 @@
-# #️⃣ **1. Durability With WAL (Write-Ahead Logging)**
+## Durability With WAL (Write-Ahead Logging)
 
-## ✔ What happens when a transaction commits?
+### What happens when a transaction commits?
 
 When a transaction commits:
 
@@ -8,7 +8,7 @@ When a transaction commits:
 * Dirty **data pages do NOT need to be flushed** to disk at commit time.
 * WAL contains enough information to **replay (REDO)** the changes after a crash.
 
-### 🔑 Key guarantee:
+#### Key guarantee:
 
 > **Commit success == WAL flushed to persistent storage**
 
@@ -16,7 +16,7 @@ Even if the actual data pages remain only in memory at commit time, durability i
 
 ---
 
-# #️⃣ **2. Difference Between Data Page Flush & WAL Flush**
+## Difference Between Data Page Flush & WAL Flush
 
 | Item                    | Data Pages                                | WAL (Write-Ahead Log)                   |
 | ----------------------- | ----------------------------------------- | --------------------------------------- |
@@ -27,22 +27,52 @@ Even if the actual data pages remain only in memory at commit time, durability i
 | Used for crash recovery | Not reliable (may be stale)               | Source of truth (redo/undo)             |
 | Flushed by              | Checkpoints                               | Commit or WAL writer                    |
 
-### 🌟 Summary
+### Summary
 
 * **WAL = durability mechanism**
 * **Data pages = performance optimization (lazy writing)**
 
 ---
 
-# #️⃣ **3. Full Workflow Scenarios**
+## Unified Summary Table
 
-Below are various workflows showing how data flows in commit, rollback, and crash cases.
+### Behavior Matrix
+
+| Scenario             | WAL Flushed? | Data Page Flushed?   | DB Action          | Result                 |
+| -------------------- | ------------ | ------------------   | ------------------ | ---------------------- |
+| Normal commit        | ✔ Yes        | ❌ No               | REDO not needed    | Commit durable         |
+| Normal rollback      | ✔ Yes        | ❌ No               | UNDO applied       | Rollback durable       |
+| Crash pre-WAL flush  | ❌ No        | ❌ No               | Nothing to recover | TX lost but consistent |
+| Crash post-WAL flush | ✔ Yes        | ❌ No               | REDO applies       | TX preserved           |
+| Crash mid-TX         | ✔ Partial    | ❌ No               | UNDO applies       | Partial TX rolled back |
 
 ---
 
-## ⭐ **Scenario 1 — Normal COMMIT Workflow**
+## Concept Map
 
-### Sequence:
+* **Data pages** = actual table data
+  Updated immediately in memory; flushed later.
+
+* **WAL** = authoritative log of all changes
+  Must be flushed before reporting COMMIT.
+
+* **Checkpoints** = flush dirty pages; allow WAL cleanup.
+
+* **REDO** = reapply committed changes after crash.
+
+* **UNDO** = revert uncommitted changes after crash.
+
+* **Durability** relies entirely on WAL, not data pages.
+
+---
+
+## Full Workflow Scenarios
+
+Below are various workflows showing how data flows in commit, rollback, and crash cases.
+
+### Scenario 1 — Normal COMMIT Workflow
+
+#### Sequence:
 
 1. SQL modifies data
    → Data page loaded into buffer pool
@@ -55,16 +85,16 @@ Below are various workflows showing how data flows in commit, rollback, and cras
 5. Data pages are **NOT flushed**.
 6. DB acknowledges commit to client.
 
-### Result:
+#### Result:
 
 * WAL ensures durability.
 * Data pages flushed later via checkpoint.
 
 ---
 
-## ⭐ **Scenario 2 — Normal ROLLBACK Workflow**
+### Scenario 2 — Normal ROLLBACK Workflow
 
-### Sequence:
+#### Sequence:
 
 1. Data pages updated **in memory**.
 2. WAL creates redo & undo information.
@@ -73,36 +103,36 @@ Below are various workflows showing how data flows in commit, rollback, and cras
    → WAL writes a rollback record (and flushes it)
 4. Data pages remain only in memory; unchanged on disk.
 
-### Result:
+#### Result:
 
 * Undo is durable (WAL knows rollback occurred)
 * Data pages are fixed in memory but not flushed yet.
 
 ---
 
-## ⭐ **Scenario 3 — Crash BEFORE WAL Flush**
+### Scenario 3 — Crash BEFORE WAL Flush
 
-### Sequence:
+#### Sequence:
 
 1. Data pages updated in memory.
 2. WAL still only in WAL buffer (not flushed).
 3. Crash happens.
 
-### Result:
+#### Result:
 
 * Both memory and WAL buffer lost.
 * No commit record exists.
 * Transaction is treated as **never committed**.
 
-### Durability preserved:
+#### Durability preserved:
 
 Because commit was *never acknowledged*, database is consistent.
 
 ---
 
-## ⭐ **Scenario 4 — Crash AFTER WAL Flush but BEFORE Data Page Flush**
+### Scenario 4 — Crash AFTER WAL Flush but BEFORE Data Page Flush
 
-### Sequence:
+#### Sequence:
 
 1. Data page updated in memory.
 2. WAL written in memory.
@@ -110,48 +140,48 @@ Because commit was *never acknowledged*, database is consistent.
 4. Crash occurs.
 5. Data pages were never flushed.
 
-### On recovery:
+#### On recovery:
 
 * DB scans WAL
 * Replays REDO for committed transactions
 * Reconstructs data pages
 
-### Result:
+#### Result:
 
 * Durability is fully preserved.
 * Data pages restored from WAL.
 
 ---
 
-## ⭐ **Scenario 5 — Crash DURING a Transaction (Partial TX)**
+### Scenario 5 — Crash DURING a Transaction (Partial TX)
 
-### KEY CORRECTION:
+#### KEY CORRECTION:
 
 Even without commit:
 
 * **WAL records for changes ARE flushed periodically**
 * Only the **commit record may be missing**
 
-### Sequence:
+#### Sequence:
 
 1. Transaction performs operations.
 2. DB writes WAL entries for each step; WAL writer flushes them.
 3. Crash happens **before commit record is written**.
 
-### On recovery:
+#### On recovery:
 
 * DB scans WAL.
 * Sees transaction’s redo/undo records.
 * Sees **no COMMIT record**.
 * Applies **UNDO** to rollback incomplete transaction.
 
-### Result:
+#### Result:
 
 * Partial TX rolled back safely.
 
 ---
 
-# #️⃣ **4. When Are Data Pages Updated in Buffer Memory?**
+## When Are Data Pages Updated in Buffer Memory?
 
 Data pages are updated **immediately when SQL modifies data**, before any commit and before WAL flush.
 
@@ -166,7 +196,7 @@ Data pages are updated **immediately when SQL modifies data**, before any commit
 
 ---
 
-# #️⃣ **5. When & How Does WAL Delete Old Records?**
+## When & How Does WAL Delete Old Records?
 
 WAL does **NOT delete records immediately after commit**.
 
@@ -183,7 +213,7 @@ Instead:
 
 ---
 
-# #️⃣ **6. How DB Detects Partial Transactions After Crash**
+## How DB Detects Partial Transactions After Crash
 
 Even partial TX generate WAL entries that are flushed by:
 
@@ -208,11 +238,11 @@ Recovery process:
 
 ---
 
-# #️⃣ **7. Where Are WAL REDO & UNDO Operations Applied?**
+## Where Are WAL REDO & UNDO Operations Applied?
 
-### ❌ Not applied to WAL
+### Not applied to WAL
 
-### ✔ Applied to **Data Pages in the Buffer Pool**
+### Applied to **Data Pages in the Buffer Pool**
 
 During recovery:
 
@@ -230,38 +260,7 @@ During recovery:
 * Writes an undo record to WAL for durability
 
 ➡ WAL is **never** modified during undo/redo.
+
 ➡ Only the **data pages** (buffer pages) are modified.
-
----
-
-# #️⃣ **8. Unified Summary Table**
-
-### 🔥 Behavior Matrix
-
-| Scenario             | WAL Flushed? | Data Page Flushed?   | DB Action          | Result                 |
-| -------------------- | ------------ | ------------------   | ------------------ | ---------------------- |
-| Normal commit        | ✔ Yes        | ❌ No               | REDO not needed    | Commit durable         |
-| Normal rollback      | ✔ Yes        | ❌ No               | UNDO applied       | Rollback durable       |
-| Crash pre-WAL flush  | ❌ No        | ❌ No               | Nothing to recover | TX lost but consistent |
-| Crash post-WAL flush | ✔ Yes        | ❌ No               | REDO applies       | TX preserved           |
-| Crash mid-TX         | ✔ Partial    | ❌ No               | UNDO applies       | Partial TX rolled back |
-
----
-
-# #️⃣ **9. Concept Map**
-
-* **Data pages** = actual table data
-  Updated immediately in memory; flushed later.
-
-* **WAL** = authoritative log of all changes
-  Must be flushed before reporting COMMIT.
-
-* **Checkpoints** = flush dirty pages; allow WAL cleanup.
-
-* **REDO** = reapply committed changes after crash.
-
-* **UNDO** = revert uncommitted changes after crash.
-
-* **Durability** relies entirely on WAL, not data pages.
 
 ---
