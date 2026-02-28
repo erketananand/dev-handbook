@@ -1,5 +1,58 @@
 # SQL Queries Q&A
 
+## Table of Contents
+
+- [Question 1: Find 2nd Highest Salary](#question-1-find-2nd-highest-salary)
+- [Question 2: Get All Active Users](#question-2-get-all-active-users)
+- [Question 3: Interview Responses Analysis](#question-3-interview-responses-analysis)
+  - [Part 1: Average Salary Expectation](#part-1-average-salary-expectation)
+  - [Part 2: Highest Salary Expectation](#part-2-highest-salary-expectation)
+  - [Part 3: Most Experienced Respondent](#part-3-most-experienced-respondent)
+- [Question 4: Top 5 Cities with Most 5-Star Businesses](#question-4-top-5-cities-with-most-5-star-businesses)
+- [Question 5: Active Users](#question-5-active-users)
+- [Question 6: Employee Salary Analysis by Region](#question-6-employee-salary-analysis-by-region)
+- [Question 7: Acme Studios Movies Analytics](#question-7-acme-studios-movies-analytics)
+  - [Part 1](#part-1)
+  - [Part 2](#part-2)
+  - [Part 3](#part-3)
+  - [Part 4](#part-4)
+  - [Part 5](#part-5)
+- [Question 8: Employee Details in Selected HR Departments](#question-8-employee-details-in-selected-hr-departments)
+- [Question 9: Find Employees Whose First Name Ends with n](#question-9-find-employees-whose-first-name-ends-with-n)
+- [Question 10: Employees Not Assigned to Any Department](#question-10-employees-not-assigned-to-any-department)
+- [Question 11: Identify Accountant Employees with CASE](#question-11-identify-accountant-employees-with-case)
+- [Question 12: Classify Employees into Salary Bins](#question-12-classify-employees-into-salary-bins)
+- [Question 13: Employees in Seattle-Based Departments](#question-13-employees-in-seattle-based-departments)
+- [Question 14: Calculate Adjusted Salary with 20 Percent Raise](#question-14-calculate-adjusted-salary-with-20-percent-raise)
+- [Question 15: Non-Boring Movies with Odd-Numbered ID](#question-15-non-boring-movies-with-odd-numbered-id)
+- [Question 16: Employee Details for Administration Marketing and HR](#question-16-employee-details-for-administration-marketing-and-hr)
+- [Question 17: Employees Sharing the Same Job as Employee 107](#question-17-employees-sharing-the-same-job-as-employee-107)
+- [Question 18: Employees with No Previous Job History](#question-18-employees-with-no-previous-job-history)
+- [Question 19: Employees with Managers in US-Based Departments](#question-19-employees-with-managers-in-us-based-departments)
+- [Question 20: Employees Hired Before Their Manager](#question-20-employees-hired-before-their-manager)
+- [Question 21: Departments with No Working Employees](#question-21-departments-with-no-working-employees)
+- [Question 22: Employees Earning the Third-Highest Salary](#question-22-employees-earning-the-third-highest-salary)
+- [Question 23: Employees Earning Below Department Average](#question-23-employees-earning-below-department-average)
+- [Question 24: Managers Overseeing Four or More Employees](#question-24-managers-overseeing-four-or-more-employees)
+- [Question 24b: Departments Where All Employees Earn at Least 9000](#question-24b-departments-where-all-employees-earn-at-least-9000)
+- [Question 25: Average Salary by Department](#question-25-average-salary-by-department)
+- [Question 26: Data Science Candidates with All Required Skills](#question-26-data-science-candidates-with-all-required-skills)
+- [Question 27: Employees Earning Over 40 Percent of Department Total Salary](#question-27-employees-earning-over-40-percent-of-department-total-salary)
+- [Question 28: Employee Salary Ranking within Each Department](#question-28-employee-salary-ranking-within-each-department)
+- [Question 29: Employees with Fifth-Highest Salary per Job Category](#question-29-employees-with-fifth-highest-salary-per-job-category)
+- [Question 30: Customers Buying Bread and Milk but Not Eggs](#question-30-customers-buying-bread-and-milk-but-not-eggs)
+- [Question 31: Assign Employees to Salary-Based Teams](#question-31-assign-employees-to-salary-based-teams)
+- [Question 32: First Day of Each Employee's First Job](#question-32-first-day-of-each-employees-first-job)
+- [Question 33: Maximum Salary of Each Employee's First Job](#question-33-maximum-salary-of-each-employees-first-job)
+- [Question 34: Employees Working at Least 28 Years](#question-34-employees-working-at-least-28-years)
+- [Question 35: Managers Working More Than 25 Years](#question-35-managers-working-more-than-25-years)
+- [Question 36: UrbanMall Consecutive High-Traffic Visit Periods](#question-36-urbanmall-consecutive-high-traffic-visit-periods)
+- [Question 37: Calculate Net Salary Including Commission](#question-37-calculate-net-salary-including-commission)
+- [Question 38: Create Employee View Filtered by City](#question-38-create-employee-view-filtered-by-city)
+- [Question 39: Create Manager Details View for Top 5 Paid Managers](#question-39-create-manager-details-view-for-top-5-paid-managers)
+- [Question 40: Total Sales Amount per Product per Year](#question-40-total-sales-amount-per-product-per-year)
+
+
 ## Question 1: Find 2nd Highest Salary
 
 **Problem:** Assume you are given the database of employees and their salaries. Write an SQL query to find the 2nd highest salary. Can you write the SQL query without using the window functions and LIMIT key?
@@ -291,7 +344,7 @@ ORDER BY
 
 ---
 
-## Question 7: 
+## Question 7: Acme Studios Movies Analytics
 
 **Acme Studios Dataset description for movies table:**
 
@@ -433,7 +486,7 @@ order by
 
 ---
 
-## Question 8: 
+## Question 8: Employee Details in Selected HR Departments
 
 **Problem:** GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
 
@@ -464,7 +517,7 @@ order by
 
 ---
 
-## Question 9: 
+## Question 9: Find Employees Whose First Name Ends with n
 
 **Problem:** Write a query to find all the employees whose `first_name` ends with the letter `'n'`.
 
@@ -489,7 +542,7 @@ order by
 
 ---
 
-## Question 10: 
+## Question 10: Employees Not Assigned to Any Department
 
 **Problem:** Write a query to find the details of employees who are not working in any department.
 
@@ -516,7 +569,7 @@ order by
 
 ---
 
-## Question 11: 
+## Question 11: Identify Accountant Employees with CASE
 
 **Problem:** write a SQL query to create a new column named Accountant.
 
@@ -544,7 +597,7 @@ order by
 
 ---
 
-## Question 12: 
+## Question 12: Classify Employees into Salary Bins
 
 **Problem:** Write an SQL query to divide employees into three salary classes based on specified salary ranges and create a new column Salary_bin that indicates the class.
 
@@ -573,7 +626,7 @@ order by
 
 ---
 
-## Question 13: 
+## Question 13: Employees in Seattle-Based Departments
 
 **Problem:** Write an SQL query to retrieve details of all employees whose department is located in `Seattle`.
 
@@ -600,7 +653,7 @@ order by
 
 ---
 
-## Question 14: 
+## Question 14: Calculate Adjusted Salary with 20 Percent Raise
 
 **Problem:** Write a SQL query to create a new column named `"New_salary"` within their "employees" table. This column will reflect the adjusted salary after applying a `20% raise` to the current salary ("salary").
 
@@ -633,7 +686,7 @@ order by
 
 ---
 
-## Question 15: 
+## Question 15: Non-Boring Movies with Odd-Numbered ID
 
 **Problem:** Write a query to report the movies with an `odd-numbered ID` and a description that is not `"boring"`.
 
@@ -656,7 +709,7 @@ order by
 
 ---
 
-## Question 16: 
+## Question 16: Employee Details for Administration Marketing and HR
 
 **Context:** GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
 
@@ -688,7 +741,7 @@ order by
 
 ---
 
-## Question 17: 
+## Question 17: Employees Sharing the Same Job as Employee 107
 
 **Problem:** Write a query to find all employees who share the `same job` as the employee with employee_id 107. Additionally, you need to create a new column `"full_name"` by concatenating `first_name` and `last_name`, separated by `space`.
 
@@ -732,7 +785,7 @@ ORDER BY
 
 ---
 
-## Question 18: 
+## Question 18: Employees with No Previous Job History
 
 **Problem:** Write a query to find all employees who are `not` present in the job_history table. This indicates they haven't held any jobs previously within the company.
 
@@ -757,7 +810,7 @@ where jh.employee_id is NULL
 
 ---
 
-## Question 19: 
+## Question 19: Employees with Managers in US-Based Departments
 
 **Problem:** Write a query to display the details of those employees who have a manager working in the department that is US (i.e., country_id) based.
 
@@ -784,7 +837,7 @@ order by
 
 ---
 
-## Question 20: 
+## Question 20: Employees Hired Before Their Manager
 
 **Problem:** Write a query to display the details of the employees who joined the company before their managers joined the company.
 
@@ -809,7 +862,7 @@ order by
 
 ---
 
-## Question 21: 
+## Question 21: Departments with No Working Employees
 
 **Problem:** Write a query to display the details of all those departments that `don't` have any working employees.
 
@@ -835,7 +888,7 @@ order by
 
 ---
 
-## Question 22: 
+## Question 22: Employees Earning the Third-Highest Salary
 
 **Problem:** Write a SQL query to find all the details of employees who earn the `third-highest salary`.
 
@@ -870,7 +923,7 @@ where
 
 ---
 
-## Question 23: 
+## Question 23: Employees Earning Below Department Average
 
 **Problem:** Write a SQL query to find the details of the employees who earn less than the average salary in their respective departments.
 
@@ -956,7 +1009,7 @@ ORDER BY
 
 ---
 
-## Question 24: 
+## Question 24: Managers Overseeing Four or More Employees
 
 **Problem:** Write a SQL query to find the `"full_name"` (first_name and last_name, separated by `space`) of managers who oversee `four or more employees`.
 
@@ -1045,7 +1098,7 @@ order by
 
 ---
 
-## Question 24: 
+## Question 24b: Departments Where All Employees Earn at Least 9000
 
 **Problem:** Write a SQl query to display the details of those departments where the salary of each employee in that department is `at least 9000`.
 
@@ -1112,7 +1165,7 @@ ORDER BY
 
 ---
 
-## Question 25:
+## Question 25: Average Salary by Department
 **Problem:** Write a query to find the `average salary` of the employees for each department.
 
 - Save the new average salary as `'Average_salary'`.
@@ -1173,7 +1226,7 @@ ORDER BY
 
 ---
 
-## Question 26:
+## Question 26: Data Science Candidates with All Required Skills
 **Problem:** Given a list of candidates and their skills, write a SQL query to find the candidates who possess all three required skills for the Data Science position.
 
 - Note that there are no duplicates in the candidates table.
@@ -1198,7 +1251,7 @@ order by
 
 ---
 
-## Question 27:
+## Question 27: Employees Earning Over 40 Percent of Department Total Salary
 **Problem:** Write a query to display the employee's full name (first name and last name separated by space) as 'full_name' of all those employees whose salary is `greater than 40%` of their department’s total salary `or` employees who don't belong to any department.
 
 - Return the column `'full_name'`.
@@ -1256,7 +1309,7 @@ ORDER BY full_name;
 
 ---
 
-## Question 28:
+## Question 28: Employee Salary Ranking within Each Department
 **Problem:** Write a query to calculate
 
 - the `row number` and save it as 'emp_row_no',
@@ -1289,7 +1342,7 @@ order by
 
 ---
 
-## Question 29:
+## Question 29: Employees with Fifth-Highest Salary per Job Category
 **Problem:** Write a query to display the details of the employees who have the `5th highest` salary in each job category.
 
 - Return the columns `'employee_id'`, `'first_name'`, and `'job_id'`.
@@ -1321,7 +1374,7 @@ order by
 
 ---
 
-## Question 30:
+## Question 30: Customers Buying Bread and Milk but Not Eggs
 **Problem:** Write a query to find the `customer_id` and `customer_name` of customers who bought products `"Bread"` and `"Milk"` but did not buy the product `"Eggs"`.
 
 - Return the columns `customer_id` and `customer_name`
@@ -1374,7 +1427,7 @@ order by
 
 ---
 
-## Question 31:
+## Question 31: Assign Employees to Salary-Based Teams
 **Problem:** A company wants to divide the employees into teams such that all the members of each team have the same salary. The teams should follow these criteria:
 
 - Each team should consist of `at least two` employees.
@@ -1423,7 +1476,7 @@ order by
 
 ---
 
-## Question 32:
+## Question 32: First Day of Each Employee's First Job
 **Problem:** Write a query to find the `first day of the first job` of employees with job history and return it as 'first_day_job'.
 
 - Return the columns `'first_name'` and `'first_day_job'`.
@@ -1480,7 +1533,7 @@ ORDER BY e.first_name;
 
 ---
 
-## Question 33:
+## Question 33: Maximum Salary of Each Employee's First Job
 **Problem:** Write a query to find the starting `maximum salary of the first job` that every employee held and return it as 'first_job_sal'.
 
 **Result:**
@@ -1573,7 +1626,7 @@ ORDER BY e.first_name;
 
 ---
 
-## Question 34:
+## Question 34: Employees Working at Least 28 Years
 **Problem:** Write a query to display the details of employees who have been working in the company for `at least 28 years as of June 8, 2022`.
 
 This involves calculating the total number of years (Total_years) each employee has been with the company and identifying those who meet or exceed the 28-year threshold.
@@ -1602,7 +1655,7 @@ ORDER BY employee_id ASC;
 
 ---
 
-## Question 35:
+## Question 35: Managers Working More Than 25 Years
 **Problem:** Write a query  to display the details of managers who have been working in the company for `more than 25 years as of June 8, 2022`.
 
 This involves calculating the total number of years each manager has been with the company and saving it as Experience.
@@ -1683,7 +1736,7 @@ ORDER BY m.employee_id ASC;
 
 ---
 
-## Question 36:
+## Question 36: UrbanMall Consecutive High-Traffic Visit Periods
 **Context:**
 
 UrbanMall is dedicated to understanding customer traffic patterns to enhance mall operations and optimize resource allocation. Identifying peak traffic periods where multiple consecutive visits had high attendance is crucial for making strategic decisions on staffing and promotions.
@@ -1770,7 +1823,7 @@ ORDER BY g.visit_date;
 
 ---
 
-## Question 37:
+## Question 37: Calculate Net Salary Including Commission
 **Problem:** Write a query to calculate the net salary for the employees and save the column as 'Net_Salary' and display the details of those employees whose net salary is greater than 15000.
 
 **Note:** To calculate the `'Net_Salary' = salary + salary *(commission_pct)`.
@@ -1811,7 +1864,7 @@ order by
 
 ---
 
-## Question 38:
+## Question 38: Create Employee View Filtered by City
 **Problem:** Create a view as `'emp_view'` that has the details i.e, `employee_id`, `first_name`, `last_name`, `salary`, `department_id`, `department_name`, `location_id`, `street_address`, and `city`.
 
 Write a query to display the details from the view of those employees who work in `departments` that are located in `Seattle` or `Southlake`.
@@ -1852,7 +1905,7 @@ order by
 
 ---
 
-## Question 39:
+## Question 39: Create Manager Details View for Top 5 Paid Managers
 **Problem:** Write a query to create a view named `Manager_details` that identifies employees who are managers (i.e., employees who have at least one direct report) and includes their details along with a salary rank based on their salary.
 
 Then, use the view to generate a report that returns the following for the `top 5 highest-paid managers`:
@@ -1904,7 +1957,7 @@ where sal_rank <= 5;
 
 ---
 
-## Question 40:
+## Question 40: Total Sales Amount per Product per Year
 **Problem:** Write a query to calculate the total sales amount of each item for each year, with the corresponding product_id, product_name, and report_year.
 
 Order the output by product_id and report_year in ascending order.
