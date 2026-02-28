@@ -206,7 +206,7 @@ WHERE
 ---
 
 ## Question 6: Employee Salary Analysis by Region
-<img alt="image" src="./images/employee ER diagram.jpg" />
+<img alt="image" src="../images/employee ER diagram.jpg" />
 
 **Part 1: Write an SQL query to find the minimum salary of an employee from each region.**
 
@@ -447,7 +447,7 @@ Here's what we need to find:
 - For each qualifying employee, we want to retrieve the employee_id, full_name (first and last name separated by space), and salary.
     - Use `CONCAT()` function to add 2 strings.
 - We want the final results to be ordered by employee_id in ascending order for easier reference.
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 select
@@ -472,7 +472,7 @@ order by
 - Return the columns `'employee_id'`, `'full_name'` (first name and last name separated by space), and `'phone_number'`.
 - Return the output ordered by `employee_id` in ascending order.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 select
@@ -497,7 +497,7 @@ order by
 - Return the columns `'employee_id'`, `'first_name'`, `'last_name'`, `'job_id'`, and `'manager_id'`.
 - Return the result ordered by `employee_id` in ascending order.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -524,7 +524,7 @@ If the employees are working in the `'FI_ACCOUNT'` or `'AC_ACCOUNT'` designation
 - The result should include the columns `employee_id`, `first_name`, `last_name`, `salary`, and `Accountant`.
 - The result should be sorted `employee_id` in `ascending order` for easier reference.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 select
@@ -554,7 +554,7 @@ order by
 
 The results should include the columns `employee_id`, `salary`, and `Salary_bin`, ordered by `employee_id` in `ascending order` for easier reference.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 select
@@ -580,7 +580,7 @@ order by
 - The result should include the columns `employee_id`, `first_name`, `last_name`, and `job_id`.
 - The result should be sorted by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -617,7 +617,7 @@ order by
 - Return the columns emp_id, name, salary, and 'New_salary'.
 - Order the output by the emp_id in ascending order.
 
-<img alt="image" src="./images/emp.png" />
+<img alt="image" src="../images/emp.png" />
 
 ```sql
 SELECT
@@ -671,7 +671,7 @@ The HR department is interested in understanding the composition of some particu
     - Use `CONCAT()` function to add 2 strings.
 - We want the final results to be ordered by `employee_id` in `ascending order` for easier reference.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -695,7 +695,7 @@ order by
 - The result should include the columns `full_name`, `salary`, `department_id`, and `job_id`.
 - The result should be sorted by `full_name` in `ascending order` for easier reference.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Query using subquery - optimized as we have index on employee_id as it's a PK - subquery gets executed in O(logN)
@@ -744,7 +744,7 @@ ORDER BY
 - To get the details of the employee's previous jobs refer to the job_history table.
 - An employee is present in the job_history table if he/she has worked before.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -766,7 +766,7 @@ where jh.employee_id is NULL
 - Return the columns employee_id, first_name, and last_name.
 - Return the result ordered by employee_id in ascending order.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -793,7 +793,7 @@ order by
 - Return the columns `'employee_id'`, `'first_name'`, and `'last_name'`.
 - Return the result ordered by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -818,7 +818,7 @@ order by
 - Return the columns `'department_id'`, and `'department_name'`.
 - Return the results ordered by `'department_id'` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -842,7 +842,7 @@ order by
 - Return `all columns` from the employees table.
 - Avoid using the `LIMIT` keyword in the query.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 select
@@ -877,7 +877,7 @@ where
 - Return the columns `'employee_id'`, `'first_name'`, `'last_name'`, `'department_id'`, and `'salary'`.
 - Return the output ordered by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using CTE + WINDOW FUNCTION (Most Efficient & Cleanest)
@@ -963,7 +963,7 @@ ORDER BY
 The result should be ordered by `full_name`, lexicographically.
 The column `manager_id` in the employees table represents the `employee_id` of the manager.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using CTE(GroupBy + Having) + JOIN
@@ -1052,7 +1052,7 @@ order by
 - Return `all columns` from the departments table.
 - Return the result ordered by `department_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using JOIN + GroupBy + Having
@@ -1119,7 +1119,7 @@ ORDER BY
 - Return the columns `'department_id'`, `'department_name'`, and `'Average_salary'`.
 - Return the result ordered by `department_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using JOIN + GroupBy (AVG)
@@ -1204,7 +1204,7 @@ order by
 - Return the column `'full_name'`.
 - Return the output ordered by `full_name` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using WINDOW FUNCTION (SUM)
@@ -1270,7 +1270,7 @@ based on the `salary` column in `descending order within each department` using 
 - Return the columns `'full_name'` (first_name and last_name separated by space), `'department_id'`, `'salary'`, `'emp_row_no'`, `'emp_rank'`, and `'emp_dense_rank'`.
 - Return the result ordered by `department_id` in `ascending order` and `salary` in `descending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -1295,7 +1295,7 @@ order by
 - Return the columns `'employee_id'`, `'first_name'`, and `'job_id'`.
 - Return the result ordered by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 with salary_rank as (
@@ -1494,7 +1494,7 @@ ORDER BY e.first_name;
 - Refer to the employees table for first_name and last_name.
 - Refer to the jobs table for the maximum salary.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 -- Using JOIN + GroupBy(MIN)
@@ -1587,7 +1587,7 @@ This involves calculating the total number of years (Total_years) each employee 
 - Then, convert this difference into years by dividing by `365`.
 - Don't forget to round the total years up to `two decimal points`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT
@@ -1618,7 +1618,7 @@ To get the `Experience` of the managers, calculate the difference in days betwee
 Then, convert this difference into years by dividing by `365`.
 Don't forget to round the total years up to `four decimal points`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 SELECT 
@@ -1782,7 +1782,7 @@ ORDER BY g.visit_date;
 - Return the columns `'employee_id'`, `'first_name'`, `'last_name'`, `'salary'`, and `'Net_Salary'`.
 - Return the result ordered by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 with emps as (
@@ -1821,7 +1821,7 @@ Write a query to display the details from the view of those employees who work i
 - Return the view with columns `'employee_id'`, `'first_name'`, `'last_name'`, `'salary'`, `'department_id'`, `'department_name'`, `'location_id'`, `'street_address'`, `'city'`.
 - Return the result ordered by `employee_id` in `ascending order`.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 create or replace view emp_view as
@@ -1871,7 +1871,7 @@ Then, use the view to generate a report that returns the following for the `top 
 - Return the result ordered by `salary` column in `descending order` and by `Manager` in `ascending order`.
 - `No duplication` of manager details is expected in the output.
 
-<img alt="image" src="./images/hr_img.png" />
+<img alt="image" src="../images/hr_img.png" />
 
 ```sql
 create or replace view Manager_details as
