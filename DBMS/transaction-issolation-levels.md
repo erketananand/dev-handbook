@@ -1,5 +1,24 @@
 # SQL Transaction Isolation Levels
 
+#### Dirty Read
+- A **dirty read** happens when a transaction reads data that was modified by another transaction **but not yet committed**.
+- If the other transaction rolls back, the first transaction has read **invalid data**.
+
+#### Non-Repeatable Read
+- A **non-repeatable** read occurs when a transaction reads the same row twice and gets **different values** because another transaction modified and committed the row in between the reads.
+
+#### Phantom Read
+- A **phantom read** happens when a transaction re-executes a query that returns multiple rows and finds **new rows (or missing rows)** because another transaction **inserted** or **deleted** rows that match the query condition.
+
+## Quick comparision of Isolation Levels
+| Isolation Level  | Dirty Read | Non-repeatable Read | Phantom Read |
+| ---------------- | ---------- | ------------------- | ------------ |
+| Read Uncommitted | ❌ Yes      | ❌ Yes               | ❌ Yes        |
+| Read Committed   | ✅ No       | ❌ Yes               | ❌ Yes        |
+| Repeatable Read  | ✅ No       | ✅ No                | ❌ Maybe*     |
+| Serializable     | ✅ No       | ✅ No                | ✅ No         |
+
+
 ## Read Uncommitted
 
 **Characteristics:** Allows dirty reads; transactions can see uncommitted changes from other transactions.
@@ -19,7 +38,7 @@
 
 ## Read Committed
 
-**Characteristics:** Prevents dirty reads but allows non-repeatable reads and phantom reads.
+**Characteristics:** Prevents dirty reads but allows non-repeatable reads and phantom reads.This is default isolation level for many DBs like PostgreSQL, Oracle DB, SQL Server.
 
 | Time | T1 (READ COMMITTED) | T2 (READ COMMITTED) | T3 (READ COMMITTED) | DB State R50 / R51 | T1 State (READ COMMITTED) | T2 State | T3 State | Notes |
 |------|---------------------|---------------------|---------------------|--------------------|---------------------------|----------|----------|-------|
