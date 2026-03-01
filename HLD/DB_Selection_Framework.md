@@ -2,6 +2,8 @@
 
 Choosing a database is one of the most consequential decisions in system design. This guide provides a structured, multi-step methodology to narrow down the search space from "every possible tool" to the "right tool for the job."
 
+<img width="100%" alt="image" src="https://github.com/user-attachments/assets/6fc22ebf-8b30-4067-b9c6-9de80029d1de" />
+
 ## Step 1: The Three Core Questions (Pre-Analysis)
 
 Before mentioning a specific product, define the operational characteristics of your workload.
