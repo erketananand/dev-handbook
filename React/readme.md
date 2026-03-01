@@ -109,3 +109,107 @@ Not wrapping async components in <Suspense>
 Hydration issues are subtle but can break your UI in production — so always test SSR apps thoroughly.
 
 
+11. What is the difference between controlled and uncontrolled components?
+Controlled components have their form data controlled by React state.
+Uncontrolled components manage their own state using the DOM.
+// Controlled
+<input value={name} onChange={e => setName(e.target.value)} />
+// Uncontrolled
+<input defaultValue="John" ref={inputRef} />
+Use controlled for React-driven logic. Use uncontrolled for simple cases or when integrating with
+non-React libraries.
+
+12. What are custom hooks and why should you use them?
+1.
+
+•
+•
+
+1
+
+Custom hooks let you extract reusable logic from components.
+
+function useAuth() {
+const [user, setUser] = useState(null);
+useEffect(() => {
+// Fetch auth status
+}, []);
+return user;
+}
+They help you: - Keep code DRY - Improve readability - Share logic between components
+
+13. What’s the difference between useEffect and useLayoutEffect?
+useEffect runs after paint (non-blocking)
+useLayoutEffect runs before paint (blocking)
+Use useLayoutEffect when you need to read/write layout measurements before the browser paints
+— like scrolling or animation setup.
+
+useLayoutEffect(() => {
+const height = ref.current.offsetHeight;
+}, []);
+
+14. What are React portals and when to use them?
+React portals allow rendering children into a DOM node outside the parent hierarchy.
+
+ReactDOM.createPortal(<Modal />, document.getElementById('modal-root'))
+Useful for: - Modals - Tooltips - Popovers
+They maintain React’s event bubbling even though they’re outside the DOM tree.
+
+15. What is key prop in React and why is it important?
+Keys help React identify which items have changed, been added, or removed.
+Avoid using indexes as keys when the list is dynamic:
+
+items.map((item, index) => <li key={item.id}>{item.name}</li>)
+•
+•
+
+2
+
+Improper keys can lead to: - Bugs in stateful lists - Poor performance
+
+16. How does React handle state updates — synchronously or asynchronously?
+React batches and handles state updates asynchronously, meaning updates might not reflect
+immediately after calling setState .
+
+setCount(count + 1);
+console.log(count); // Might log old value
+Use functional updates if relying on previous state:
+
+setCount(prev => prev + 1);
+
+17. What is reconciliation in React?
+Reconciliation is React's process of diffing the virtual DOM tree to determine what changed and
+updating the real DOM efficiently.
+Uses keys to identify changes
+Tries to minimize DOM operations
+Fiber made reconciliation interruptible and smarter.
+
+18. Explain lazy loading in React.
+Lazy loading delays the loading of components until they’re needed.
+
+const LazyComp = React.lazy(() => import('./HeavyComponent'));
+Use it with <Suspense> to show fallback UI during load.
+Improves performance by reducing initial bundle size.
+
+19. What is Server Components in React?
+React Server Components (RSC) let you render components on the server without sending JS to the
+client.
+Can fetch data on server
+Send only minimal HTML/JSON to browser
+Works with Suspense for streaming
+•
+•
+
+•
+•
+•
+
+3
+
+They're experimental but very promising for performance.
+
+20. What are render props and how do they compare to hooks?
+Render props are a pattern for sharing logic using a function-as-children.
+
+<DataFetcher render={data => <UI data={data} />} />
+Hooks are now preferred for readability and reuse, but render props still work in older patterns.
