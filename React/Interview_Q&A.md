@@ -1,6 +1,6 @@
 ### 1. How would you design a Redux slice for a shopping cart with coupon functionality?
 
-I'd use **Redux Toolkit's `createSlice**` for its immutability-friendly reducers and boilerplate reduction. The state would include `items` and `coupon` and the logic would handle basic CRUD operations as well as a more complex async action for applying a coupon code.
+I'd use **Redux Toolkit's `createSlice`** for its immutability-friendly reducers and boilerplate reduction. The state would include `items` and `coupon` and the logic would handle basic CRUD operations as well as a more complex async action for applying a coupon code.
 
 **State Structure:**
 
@@ -507,7 +507,7 @@ In older versions (React 17 and below), rendering was **synchronous and uninterr
 
 **Concurrent React** makes rendering **interruptible**. React can now prepare multiple versions of the UI in the background. If a user types into an input while a heavy list is rendering, React can "pause" the list render, handle the input click (high priority), and then resume the list render.
 
-### 9. What is the purpose of `useTransition`?**
+### 9. What is the purpose of `useTransition`?
 
 `useTransition` allows you to mark certain state updates as **non-urgent** (transitions). Urgent updates (like typing in an input) happen immediately, while transitions happen in the background without blocking the UI.
 
