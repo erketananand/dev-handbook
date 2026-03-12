@@ -52,3 +52,45 @@
     *   **Network Waterfalls:** If parent and child components both fetch in Effects, they may load sequentially rather than in parallel.
     *   **Caching Issues:** It does not automatically handle caching or preloading, potentially leading to redundant network requests if a component remounts.
 *   **Recommendation:** Use framework-built-in mechanisms or client-side caches like **TanStack Query** or **SWR**.
+
+### **Q8: What happens if you update a state directly inside the component body without any condition or event?**
+*   **Answer:** If you update a state (e.g., `setCounter(counter + 1)`) directly in the component body, it will cause an **infinite loop**.
+*   **The Error:** You will see an error in the console such as **"Too many re-renders"**.
+*   **Reason:** Every time you update the state, React triggers a re-render of the component. Since the update function is sitting directly in the code path without a trigger (like a button click) or a condition, it runs immediately during the render, updates the state again, triggers another render, and continues indefinitely.
+*   **Example:**
+    ```javascript
+    function MyComponent() {
+      const [counter, setCounter] = useState(0);
+      
+      // INCORRECT: Direct update without event/condition
+      setCounter(counter + 1); 
+      
+      return <div>{counter}</div>;
+    }
+    ```
+
+### **Q9: What happens if you update a state inside `useEffect` without a dependency array?**
+*   **Answer:** This will also result in an **infinite loop** and a "Maximum update depth exceeded" error.
+*   **Reason:** A `useEffect` hook without a dependency array (the second argument) runs after **every single render**. When the code inside `useEffect` updates the state, the component re-renders. Because the component re-rendered, the `useEffect` runs again, updates the state again, and the cycle repeats forever.
+*   **Example:**
+    ```javascript
+    useEffect(() => {
+      // INCORRECT: Will run on every render and trigger a new render
+      setCounter(counter + 1); 
+    }); 
+    ```
+
+### **Q10: How should state updates be correctly implemented to avoid these loops?**
+*   **Answer:** You must ensure that state updates are tied to a specific **event** or governed by a **condition**.
+*   **Solutions:**
+    *   **Events:** Only call the update function inside an event handler, such as an `onClick` function.
+    *   **Conditions:** Use an `if` statement to check a specific condition before updating the state.
+    *   **Dependency Arrays:** When using `useEffect`, always provide a dependency array to specify exactly when the effect (and the state update) should run.
+*   **Example of correct `useEffect` usage:**
+    ```javascript
+    // This will only run once when the component mounts, preventing a loop
+    useEffect(() => {
+      setCounter(counter + 1);
+    }, []); 
+    ```
+
