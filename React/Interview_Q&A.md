@@ -660,3 +660,85 @@ class User {
   }
 }
 ```
+
+### 22. Derived State
+* **Q1: What is "Derived State" in React?**
+
+  **Answer:** Derived state refers to **variables or constants** that store a specific calculation or a portion of the value derived from a **main state**. Instead of creating a new state for every piece of data, you calculate it directly from existing state variables.
+
+* **Q2: What are some practical examples of derived state?**
+
+  **Answer:** Based on a main state called `users` (which stores a list of people), you can derive the following:
+    *   **Total Users:** A variable named `total` that stores the **length** of the `users` array (e.g., `users.length`).
+    *   **Last Added User:** A variable named `last` that extracts and stores only the **last value** from the `users` state.
+    *   **Unique Data:** A constant named `unique` that filters the `users` list to store only **unique user information**.
+  **Example Scenario:** If you have three users and add a fourth one ("Anil"), the `total` variable would automatically update to 4, and if "Anil" was already in the list, a `unique` derived state might stay at 3 while the `last` user variable updates to "Anil".
+
+* **Q3: Do derived state variables update on the UI correctly?**
+
+  **Answer:** **Yes.** While standard JavaScript variables usually do not trigger UI updates (because they don't cause re-renders), derived states **will update properly on the UI**. 
+
+* **Q4: Why does a derived state update if it isn't its own React state?**
+
+  **Answer:** The reason is the **re-rendering cycle** of the component. 
+    *   When the **main state** (like `users`) is updated, React automatically **re-renders the entire component**.
+    *   During this re-render, the code inside the component is executed again, which means the derived variables are **re-calculated with the most recent values** from the main state. 
+    *   This ensures the UI always displays the latest calculated data without needing an explicit `setState` call for the derived values.
+
+### 23. What is the definition of a Higher-Order Component (HOC)? Are HOCs still used in modern React (versions 17, 18, or 19)?
+*   A Higher-Order Component is a **function** that takes a component as a **parameter** (argument) and returns a **new component**. 
+*   **Core Pattern:** `NewComponent = higherOrderComponent(OriginalComponent)`.
+*   HOCs are generally not used in modern React code. While it is technically possible to create them with functional components, there is **no longer a significant need** for them, and they are rarely used in current development practices.
+
+
+### 24. Nested component in React:
+
+* **Q1: Can we define a React component inside another component?**
+  *   **Answer:** **Yes**, it is technically possible to define one component within the body of another. If you do this, the code will execute, and the output will display properly in the browser.
+  *   **Example (Technically Functional but Discouraged):**
+
+      ```javascript
+      function App() {
+        // Defining a component inside another component
+        function Child() {
+          return <div>Child Component</div>;
+        }
+  
+        return (
+          <div>
+            <h1>Parent Component</h1>
+            <Child />
+          </div>
+        );
+      }
+      ```
+      In this scenario, the "Child" component is created every time the "App" component renders.
+
+* **Q2: Should we define components inside other components?**
+  *   **Answer:** **No**, you should not do this,. While the code might work, it is considered a significant "pitfall" in React development. 
+
+* **Q3: What are the risks of nesting component definitions?**
+  *   **Answer:** There are two primary reasons why this practice is discouraged:
+      1.  **Performance Issues:** It makes your **application slow**,. Because the inner component is redefined on every render of the parent, React cannot optimize it effectively.
+      2.  **Bugs:** It can lead to unexpected **bugs** in your application's behavior,.
+
+* **Q4: What is the correct way to structure multiple components?**
+  *   **Answer:** You should **define each component separately** and at the same level (outside of each other). 
+  *   **Data Sharing:** If the child component needs data from the parent, you should not rely on the parent's internal scope. Instead, you should **pass data via props**.
+  *   **Correct Example:**
+
+      ```javascript
+      // Define components separately
+      function Profile({ name }) {
+        return <div>Profile of {name}</div>;
+      }
+  
+      function Gallery() {
+        return (
+          <div>
+            <Profile name="Anil" /> {/* Pass data via props */}
+          </div>
+        );
+      }
+      ```
+      In this recommended approach, `Gallery` and `Profile` are independent definitions, which is the standard and optimized way to write React code.
