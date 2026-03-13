@@ -158,7 +158,7 @@ WHERE edges > 0          -- has at least 2 purchases (optional, but usually inte
 
 ## Question 3: Interview Responses Analysis
 
-**Problem Statement:** Given the Sample Table 'interview_responses'.
+**Problem Statement:** Given the Sample Table `interview_responses`.
 
 **Table Schema:**
 - Respondent_id | name | age | gender | education | experience_years | salary_expectation
