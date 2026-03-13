@@ -742,3 +742,80 @@ class User {
       }
       ```
       In this recommended approach, `Gallery` and `Profile` are independent definitions, which is the standard and optimized way to write React code.
+### 25. Differences between **Lazy Loading** and **`useTransition`**.
+
+*  **Q1: What is the primary difference in purpose between Lazy Loading and `useTransition`?**
+
+      **Answer:** 
+      *   **Lazy Loading** is used to improve the **initial loading speed** of an application by fetching components only when they are actually needed (e.g., when a user clicks a button or navigates to a specific route). 
+      *   **`useTransition`** is used to manage the **UI responsiveness** during heavy tasks. It allows you to handle complex code execution or API calls without freezing the user interface, typically by showing a loader while the task is pending.
+
+* **Q2: How does Lazy Loading work in a practical scenario?**
+
+  **Answer:** By default, React tries to load all components immediately. With Lazy Loading, you can ensure that a secondary component only loads if and when a specific action occurs. If a user never triggers that action, the code for that component is never downloaded, saving bandwidth and memory.
+      **Example (Lazy Loading):**
+
+    ```javascript
+    import React, { lazy, Suspense, useState } from 'react';
+
+    // Component is not loaded until needed
+    const HeavyComponent = lazy(() => import('./HeavyComponent'));
+
+    function App() {
+      const [show, setShow] = useState(false);
+
+      return (
+        <div>
+          <button onClick={() => setShow(true)}>Load Heavy Component</button>
+          
+          {show && (
+            <Suspense fallback={<div>Loading Component...</div>}>
+              <HeavyComponent />
+            </Suspense>
+          )}
+        </div>
+      );
+    }
+    ```
+
+* **Q3: When should a developer choose `useTransition` over standard state updates?**
+
+
+  **Answer:** You should use `useTransition` when a button click or action triggers a **very large code execution** or a **slow API call**. It helps prevent the UI from becoming unresponsive ("freezing") by allowing you to display a loading state until the execution finishes.
+    **Example (`useTransition`):**
+
+  ```javascript
+    import { useState, useTransition } from 'react';
+
+    function App() {
+      const [isPending, startTransition] = useTransition();
+      const [data, setData] = useState([]);
+
+      const handleClick = () => {
+        startTransition(async () => {
+          // Simulate a heavy API call or complex logic
+          await fetchComplexData(); 
+          setData(newResults);
+        });
+      };
+
+      return (
+        <div>
+          <button onClick={handleClick} disabled={isPending}>
+            {isPending ? "Processing..." : "Execute Heavy Task"}
+          </button>
+          {isPending && <p>Loader showing: UI is not frozen!</p>}
+        </div>
+      );
+    }
+    ```
+
+  **Summary Comparison Table**
+  
+  | Feature | Lazy Loading | `useTransition` |
+  | :--- | :--- | :--- |
+  | **Main Goal** | Application speed/Performance | UI Responsiveness/UX |
+  | **Timing** | Loads code when needed | Executes logic in background |
+  | **Visual Feedback** | Usually uses `Suspense` fallback | Uses `isPending` for loaders |
+  | **Best For** | Large components or routes | Slow API calls or heavy calculations |
+
