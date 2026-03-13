@@ -92,7 +92,7 @@ OFFSET 1; -- (n-1)
 
 **Problem:** Assume you have order data from a restaurant. Write an SQL query to get all active users.
 
-**Definition of an Active User:**
+**Definition 1 of an Active User:**
 - A returning active user is a user who has made a second purchase within 7 days of any of their previous purchases.
 - The same user can place multiple purchases, but we only need to find those who meet the "second purchase within 7 days" rule.
 - Return only distinct user_ids of active users.
@@ -116,6 +116,42 @@ WHERE
     previous_purchase_date IS NOT NULL
     AND
     current_purchase_date <= previous_purchase_date + INTERVAL '7 DAY';
+```
+
+**Definition 2 of an Active User:**
+
+A user is **active only if every purchase after their first** happens **within 7 days of the immediately previous purchase** (i.e., no gap > 7 days anywhere in their purchase history).
+
+### Solution (window + aggregation)
+
+```sql
+WITH seq AS (
+  SELECT
+    user_id,
+    date AS current_purchase_date,
+    LAG(date) OVER (PARTITION BY user_id ORDER BY date) AS prev_purchase_date
+  FROM Orders
+),
+per_user AS (
+  SELECT
+    user_id,
+    -- count of purchases after the first
+    SUM(CASE WHEN prev_purchase_date IS NOT NULL THEN 1 ELSE 0 END) AS edges,
+    -- count of purchases after the first that satisfy the 7-day rule
+    SUM(
+      CASE
+        WHEN prev_purchase_date IS NOT NULL
+         AND current_purchase_date <= prev_purchase_date + INTERVAL '7 DAY'
+        THEN 1 ELSE 0
+      END
+    ) AS ok_edges
+  FROM seq
+  GROUP BY user_id
+)
+SELECT user_id
+FROM per_user
+WHERE edges > 0          -- has at least 2 purchases (optional, but usually intended)
+  AND ok_edges = edges;  -- all consecutive gaps are within 7 days
 ```
 
 ---
