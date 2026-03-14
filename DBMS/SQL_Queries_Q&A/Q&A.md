@@ -1337,20 +1337,35 @@ ORDER BY
 
     <img alt="image" src="https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/019/131/original/Screenshot_2022-10-28_at_4.06.05_PM.png" />
 
-```sql
-select
-    candidate_id
-FROM
-    candidates
-where
-    skill in ('Python', 'Tableau', 'MySQL')
-group by
-    candidate_id
-having
-    count(distinct skill) = 3
-order by
-    candidate_id asc
-```
+* Solution 1:
+
+  ```sql
+  select
+      candidate_id
+  FROM
+      candidates
+  where
+      skill in ('Python', 'Tableau', 'MySQL')
+  group by
+      candidate_id
+  having
+      count(distinct skill) = 3
+  order by
+      candidate_id asc
+  ```
+  
+* Solution 2:
+
+  ```sql
+  SELECT candidate_id
+  FROM candidates
+  GROUP BY candidate_id
+  HAVING
+      COUNT(CASE WHEN skill = 'Python' THEN 1 END) > 0
+  AND COUNT(CASE WHEN skill = 'Tableau' THEN 1 END) > 0
+  AND COUNT(CASE WHEN skill = 'MySQL' THEN 1 END) > 0
+  ORDER BY candidate_id;
+  ```
 
 ---
 
