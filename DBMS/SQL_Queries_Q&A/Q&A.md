@@ -271,7 +271,7 @@ WHERE
 
 ---
 
-## Question 5: Active Users
+## Question 5: Active Users - Same as Question 2
 
 ```sql
 WITH curr_order_date_with_immediate_prev_order_date AS (
