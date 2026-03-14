@@ -8,7 +8,7 @@
 
 1. `FROM` / `JOIN`
 2. `WHERE`
-3. `GROUP BY`
+3. `GROUP BY` // *aggregation is available group by onwards*
 4. `HAVING`
 5. Window Functions (`OVER()`)
 6. `SELECT`
