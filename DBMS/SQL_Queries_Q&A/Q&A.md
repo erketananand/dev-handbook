@@ -9,7 +9,7 @@
   - [Part 2: Highest Salary Expectation](#part-2-highest-salary-expectation)
   - [Part 3: Most Experienced Respondent](#part-3-most-experienced-respondent)
 - [Question 4: Top 5 Cities with Most 5-Star Businesses](#question-4-top-5-cities-with-most-5-star-businesses)
-- [Question 5: Active Users](#question-5-active-users)
+- [Question 5: Active Users](#question-5-active-users---same-as-question-2)
 - [Question 6: Employee Salary Analysis by Region](#question-6-employee-salary-analysis-by-region)
 - [Question 7: Acme Studios Movies Analytics](#question-7-acme-studios-movies-analytics)
   - [Part 1](#part-1)
@@ -262,7 +262,7 @@ WITH city_5_stars_count AS (
 SELECT
     city,
     num_5_star_businesses,
-    RANK() OVER(ORDER BY num_5_star_businesses DESC) AS rank
+    RANK() OVER(ORDER BY num_5_star_businesses DESC) AS rank -- Use ROW_NUMBER() if exactly top 5 city with Most 5-Star Businesses to display even when count tie for 2 cities
 FROM
     city_5_stars_count
 WHERE
@@ -317,67 +317,134 @@ ORDER BY
 
 **Part 2: Write an SQL query to find the minimum salary of a manager from each region.**
 
-```sql
-SELECT 
-    r.region_name,
-    MIN(e.salary) AS minimum_manager_salary
-FROM 
-    employees e
-    JOIN departments d ON e.department_id = d.department_id
-    JOIN locations l ON d.location_id = l.location_id
-    JOIN countries c ON l.country_id = c.country_id
-    JOIN regions r ON c.region_id = r.region_id
-WHERE 
-    e.employee_id IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL)
-GROUP BY 
-    r.region_id, r.region_name
-ORDER BY 
-    r.region_name;
-```
+* Using Subquery
+
+  ```sql
+  SELECT 
+      r.region_name,
+      MIN(e.salary) AS minimum_manager_salary
+  FROM 
+      employees e
+      JOIN departments d ON e.department_id = d.department_id
+      JOIN locations l ON d.location_id = l.location_id
+      JOIN countries c ON l.country_id = c.country_id
+      JOIN regions r ON c.region_id = r.region_id
+  WHERE 
+      e.employee_id IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL)
+  GROUP BY 
+      r.region_id, r.region_name
+  ORDER BY 
+      r.region_name;
+  ```
+
+* Using where exists
+  
+  ```sql
+  SELECT 
+      r.region_name,
+      MIN(e.salary) AS minimum_manager_salary
+  FROM employees e
+  JOIN departments d ON e.department_id = d.department_id
+  JOIN locations l ON d.location_id = l.location_id
+  JOIN countries c ON l.country_id = c.country_id
+  JOIN regions r ON c.region_id = r.region_id
+  WHERE EXISTS (
+      SELECT 1
+      FROM employees m
+      WHERE m.manager_id = e.employee_id
+  )
+  GROUP BY r.region_id, r.region_name
+  ORDER BY r.region_name;
+  ```
+
+* Using self-join
+
+  ```sql
+  SELECT 
+      r.region_name,
+      MIN(e.salary) AS minimum_manager_salary
+  FROM employees e
+  JOIN employees m ON m.manager_id = e.employee_id
+  JOIN departments d ON e.department_id = d.department_id
+  JOIN locations l ON d.location_id = l.location_id
+  JOIN countries c ON l.country_id = c.country_id
+  JOIN regions r ON c.region_id = r.region_id
+  GROUP BY r.region_id, r.region_name
+  ORDER BY r.region_name;
+  ```
 
 **Part 3:  Write an SQL query to display the top 3 employees in each department who are getting more than the average salary of all the employees from each department.**
 
-```sql
-WITH DepartmentAverage AS (
-    SELECT 
-        department_id,
-        AVG(salary) AS avg_salary
-    FROM 
-        employees
-    GROUP BY 
-        department_id
-),
-RankedEmployees AS (
-    SELECT 
-        e.employee_id,
-        e.first_name,
-        e.last_name,
-        e.salary,
-        e.department_id,
-        da.avg_salary,
-        RANK() OVER (PARTITION BY e.department_id ORDER BY e.salary DESC) AS salary_rank
-    FROM 
-        employees e
-        JOIN DepartmentAverage da ON e.department_id = da.department_id
-    WHERE 
-        e.salary > da.avg_salary
-)
-SELECT 
-    employee_id,
-    first_name,
-    last_name,
-    salary,
-    department_id,
-    avg_salary AS department_avg_salary,
-    salary_rank
-FROM 
-    RankedEmployees
-WHERE 
-    salary_rank <= 3
-ORDER BY 
-    department_id, salary_rank;
-```
+* Solution 1: Using GroupBy and Window Function
 
+  ```sql
+  WITH DepartmentAverage AS (
+      SELECT 
+          department_id,
+          AVG(salary) AS avg_salary
+      FROM 
+          employees
+      GROUP BY 
+          department_id
+  ),
+  RankedEmployees AS (
+      SELECT 
+          e.employee_id,
+          e.first_name,
+          e.last_name,
+          e.salary,
+          e.department_id,
+          da.avg_salary,
+          RANK() OVER (PARTITION BY e.department_id ORDER BY e.salary DESC) AS salary_rank -- Use ROW_NUMBER() if exactly 3 employees to display per department even when salaries tie
+      FROM 
+          employees e
+          JOIN DepartmentAverage da ON e.department_id = da.department_id
+      WHERE 
+          e.salary > da.avg_salary
+  )
+  SELECT 
+      employee_id,
+      first_name,
+      last_name,
+      salary,
+      department_id,
+      avg_salary AS department_avg_salary,
+      salary_rank
+  FROM 
+      RankedEmployees
+  WHERE 
+      salary_rank <= 3
+  ORDER BY 
+      department_id, salary_rank;
+  ```
+
+* Solution 2: Using Window Function in a single scan
+
+  ```sql
+  WITH RankedEmployees AS (
+      SELECT 
+          employee_id,
+          first_name,
+          last_name,
+          salary,
+          department_id,
+          AVG(salary) OVER (PARTITION BY department_id) AS avg_salary,
+          RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank -- Use ROW_NUMBER() if exactly 3 employees to display per department even when salaries tie
+      FROM employees
+  )
+  SELECT 
+      employee_id,
+      first_name,
+      last_name,
+      salary,
+      department_id,
+      avg_salary AS department_avg_salary,
+      salary_rank
+  FROM RankedEmployees
+  WHERE salary > avg_salary
+  AND salary_rank <= 3
+  ORDER BY department_id, salary_rank;
+  ```
 ---
 
 ## Question 7: Acme Studios Movies Analytics
