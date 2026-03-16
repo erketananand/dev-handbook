@@ -1,3 +1,5 @@
+#### [How to approach a LLD Interview Problem](https://blog.algomaster.io/p/how-to-answer-a-lld-interview-problem)
+
 ### Step 1: Clarify Requirements
 
 Understand the **requirements** and **use-cases** by asking below questions:
