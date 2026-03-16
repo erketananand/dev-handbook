@@ -1,4 +1,4 @@
-[How to approach a LLD Interview Problem](https://blog.algomaster.io/p/how-to-answer-a-lld-interview-problem)
+[How to approach a LLD Interview Problem](https://github.com/erketananand/dev-handbook/blob/main/LLD/how-to-approach-lld-problem.md)
 
 [Singleton Instance: Double Check Locking](https://github.com/erketananand/dev-handbook/tree/main/LLD#singleton-instance-double-check-locking)
 
