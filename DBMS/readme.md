@@ -14,3 +14,12 @@
 6. `SELECT`
 7. `ORDER BY`
 8. `LIMIT` / `OFFSET`
+
+#### Design the DB Schema
+
+* For each class that represents an entity in the class diagram, create a table in the schema design.
+* For each primitive attribute (int/boolean/string) in each entity class, put that attribute as a column in the corresponding table (non-object & non-associative attribute)
+* For every non-primitive attribute (relation with another class)
+  * Find the cardinality of the relation
+  * Represent that relation as per rules to represent that cardinality.
+* Inheritance is not represented by multiple tables with the same attributes. Instead, one table with common attributes and other tables with specific attributes and foreign keys.
