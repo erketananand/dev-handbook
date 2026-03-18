@@ -1,4 +1,103 @@
-### 1. Promise.all
+### 1. Promise
+
+```javascript
+class MyPromise {
+  constructor(executor) {
+    this.state = "pending";
+    this.value = undefined;
+    this.reason = undefined;
+
+    this.onFulfilledCallbacks = [];
+    this.onRejectedCallbacks = [];
+
+    const resolve = (value) => {
+      if (this.state === "pending") {
+        this.state = "fulfilled";
+        this.value = value;
+        this.onFulfilledCallbacks.forEach(fn => fn());
+      }
+    };
+
+    const reject = (reason) => {
+      if (this.state === "pending") {
+        this.state = "rejected";
+        this.reason = reason;
+        this.onRejectedCallbacks.forEach(fn => fn());
+      }
+    };
+
+    try {
+      executor(resolve, reject);
+    } catch (err) {
+      reject(err);
+    }
+  }
+
+  then(onFulfilled, onRejected) {
+    return new MyPromise((resolve, reject) => {
+      if (this.state === "fulfilled") {
+        try {
+          const result = onFulfilled ? onFulfilled(this.value) : this.value;
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+
+      if (this.state === "rejected") {
+        try {
+          const result = onRejected ? onRejected(this.reason) : this.reason;
+          reject(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+
+      if (this.state === "pending") {
+        this.onFulfilledCallbacks.push(() => {
+          try {
+            const result = onFulfilled ? onFulfilled(this.value) : this.value;
+            resolve(result);
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        this.onRejectedCallbacks.push(() => {
+          try {
+            const result = onRejected ? onRejected(this.reason) : this.reason;
+            reject(result);
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
+    });
+  }
+
+  catch(onRejected) {
+    return this.then(null, onRejected);
+  }
+}
+```
+
+**Example:**
+
+```javascript
+const p = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Success!");
+  }, 1000);
+});
+
+p.then(res => {
+  console.log(res); // Success!
+}).catch(err => {
+  console.log(err);
+});
+```
+
+### 2. Promise.all
 
 * This returned promise fulfills when all of the input's promises fulfill (including when an empty iterable is passed), with an array of the fulfillment values.
 * It rejects when any of the input's promises rejects, with this first rejection reason.
@@ -109,7 +208,7 @@ all([func1(), func2(), func3()]) // Call funcN() to get the promises
 // Then, the final console.log will run.
 ```
 
-### 2. Promise.any
+### 3. Promise.any
 
 * This returned promise fulfills when any of the input's promises fulfills, with this first fulfillment value.
 * It rejects when all of the input's promises reject (including when an empty iterable is passed), with an AggregateError containing an array of rejection reasons.
@@ -202,7 +301,7 @@ any([p1, p2, p3])
 // Individual Errors: [ 'Failure 1', 'Failure 2', 'Failure 3' ]
 ```
 
-### 3. Promise.race
+### 4. Promise.race
 
 * The "first one wins" method. It resolves or rejects as soon as the first promise in the array settles.
 
@@ -217,7 +316,7 @@ function race(promises) {
 }
 ```
 
-### 4. Promise.allSettled
+### 5. Promise.allSettled
 
 * This returned promise fulfills when all of the input's promises settle (including when an empty iterable is passed), with an array of objects that describe the outcome of each promise.
 
