@@ -82,3 +82,53 @@ const searchHandler = debounce((text) => {
   console.log("Searching for:", text);
 }, 500);
 ```
+
+#### Function Currying
+
+* Currying transforms a function of multiple arguments into a series of nesting functions.
+
+```javascript
+function curry(fn) {
+  return function curried(...args) {
+    // If we have enough arguments, execute the original function
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
+    }
+    // Otherwise, return a new function to collect more arguments
+    return (...nextArgs) => curried(...args, ...nextArgs);
+  };
+}
+
+// Usage:
+const sum = (a, b, c) => a + b + c;
+const curriedSum = curry(sum);
+console.log(curriedSum(1)(2)(3)); // 6
+```
+
+#### Private Variables & Module Pattern (IIFE)
+
+* Closures allow us to create "private" state that cannot be accessed from the outside. The Module Pattern uses an IIFE to return only the "public" API.
+
+```javascript
+const CounterModule = (function() {
+  // Private variable - inaccessible from the global scope
+  let _count = 0; 
+
+  function _logChange() {
+    console.log(`Value changed to: ${_count}`);
+  }
+
+  return {
+    increment() {
+      _count++;
+      _logChange();
+    },
+    getCount() {
+      return _count;
+    }
+  };
+})();
+
+CounterModule.increment(); // Value changed to: 1
+console.log(CounterModule._count); // undefined (Safe!)
+```
