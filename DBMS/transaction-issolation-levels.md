@@ -23,6 +23,10 @@
 
 **Characteristics:** Allows dirty reads; transactions can see uncommitted changes from other transactions.
 
+**Example:**
+* Real-time analytics dashboards where absolute accuracy isn’t critical
+* Logging systems
+
 | Time | Transaction T1 (READ UNCOMMITTED) Action | Transaction T2 (READ COMMITTED) Action | DB State (Committed) ACC001:Balance | T1 View ACC001:Balance | T2 View ACC001:Balance | Notes |
 |------|------------------------------------------|----------------------------------------|-------------------------------------|------------------------|------------------------|-------|
 | T0   | BEGIN TRANSACTION;                       |                                        | 1000                                |                        |                        | T1 starts. |
@@ -39,6 +43,10 @@
 ## Read Committed
 
 **Characteristics:** Prevents dirty reads but allows non-repeatable reads and phantom reads.This is default isolation level for many DBs like PostgreSQL, Oracle DB, SQL Server.
+
+**Example:**
+* Most common default (e.g., Oracle, Postgres, SQLServer)
+Banking queries, order tracking systems
 
 | Time | T1 (READ COMMITTED) | T2 (READ COMMITTED) | T3 (READ COMMITTED) | DB State R50 / R51 | T1 State (READ COMMITTED) | T2 State | T3 State | Notes |
 |------|---------------------|---------------------|---------------------|--------------------|---------------------------|----------|----------|-------|
@@ -59,6 +67,10 @@
 
 **Characteristics:** Prevents dirty and non-repeatable reads; phantom reads can still occur.
 
+**Example:**
+* Financial calculations
+* Inventory systems
+
 | Time | T1 (REPEATABLE READ) | T2 (READ COMMITTED) | T3 (READ COMMITTED) | DB State R50 / R51 | T1 Snapshot State | T2 State | T3 State | Notes |
 |------|----------------------|---------------------|---------------------|--------------------|-------------------|----------|----------|-------|
 | T0   | BEGIN TRANSACTION;   |                     |                     | R50: 100 / R51: NA | R50: 100, R51: NA |          |          | T1 takes a consistent snapshot. |
@@ -77,6 +89,11 @@
 ## Serializable
 
 **Characteristics:** Highest isolation level; prevents dirty, non-repeatable, and phantom reads via range locks.[web:20]
+
+**Example:**
+* Banking transfers
+* Airline seat booking
+* Stock trading
 
 | Time | T1 (SERIALIZABLE) | T2 (READ COMMITTED) | T3 (READ COMMITTED) | DB State (id/name/category) | T1 View | T2 View | T3 View | Notes |
 |------|-------------------|---------------------|---------------------|-----------------------------|---------|---------|---------|-------|
