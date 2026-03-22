@@ -25,9 +25,13 @@ export class ConsoleInterface {
   private passengerService = new PassengerService();
   private flightService = new FlightService();
   private bookingService = new BookingService();
-  private setupService = new SetupService(this.flightService);
+  private setupService: SetupService;
   private notifier = BookingNotifier.getInstance();
   private db = InMemoryDatabase.getInstance();
+
+  constructor() {
+    this.setupService = new SetupService(this.flightService, this.passengerService);
+  }
 
   private rl = readline.createInterface({
     input: process.stdin,
