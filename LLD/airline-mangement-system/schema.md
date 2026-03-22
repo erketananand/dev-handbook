@@ -1,10 +1,6 @@
-# Airline Management System - Database Schema
+## Airline Management System - Database Schema
 
-## Schema Diagram (Tabular Format)
-
----
-
-## Table: Passenger
+### Table: Passenger
 
 | Column Name   | Data Type    | Constraints            | Description                              |
 |---------------|--------------|------------------------|------------------------------------------|
@@ -19,11 +15,8 @@
 **Indexes:**
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on `email`
-- INDEX on `passport_no`
 
----
-
-## Table: Aircraft
+### Table: Aircraft
 
 | Column Name    | Data Type    | Constraints            | Description                              |
 |----------------|--------------|------------------------|------------------------------------------|
@@ -38,9 +31,7 @@
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on `registration`
 
----
-
-## Table: Seat
+### Table: Seat
 
 | Column Name   | Data Type    | Constraints            | Description                              |
 |---------------|--------------|------------------------|------------------------------------------|
@@ -57,14 +48,12 @@
 - INDEX on `aircraft_id`
 - FOREIGN KEY: `aircraft_id` REFERENCES `Aircraft(id)` ON DELETE CASCADE
 
----
-
-## Table: Flight
+### Table: Flight
 
 | Column Name      | Data Type    | Constraints            | Description                              |
 |------------------|--------------|------------------------|------------------------------------------|
 | id               | VARCHAR(36)  | PRIMARY KEY            | Unique flight identifier (UUID)          |
-| flight_number    | VARCHAR(20)  | NOT NULL, UNIQUE       | Flight number (e.g., AI-202)             |
+| flight_number    | VARCHAR(20)  | NOT NULL               | Flight number (e.g., AI-202)             |
 | aircraft_id      | VARCHAR(36)  | NOT NULL, FOREIGN KEY  | References Aircraft.id                   |
 | source           | VARCHAR(100) | NOT NULL               | Departure airport/city                   |
 | destination      | VARCHAR(100) | NOT NULL               | Arrival airport/city                     |
@@ -77,26 +66,21 @@
 
 **Indexes:**
 - PRIMARY KEY on `id`
-- UNIQUE INDEX on `flight_number`
-- INDEX on `source`
-- INDEX on `destination`
-- INDEX on `departure_time`
+- UNIQUE INDEX on (`flight_number`, `aircraft_id`, `source`, `destination`, `departure_time`)
 - INDEX on (`source`, `destination`, `departure_time`)
 - FOREIGN KEY: `aircraft_id` REFERENCES `Aircraft(id)`
 
 **Constraints:**
 - CHECK: `arrival_time > departure_time`
 
----
-
-## Table: FlightSeatAvailability
+### Table: FlightSeatAvailability
 
 | Column Name   | Data Type    | Constraints            | Description                              |
 |---------------|--------------|------------------------|------------------------------------------|
 | id            | VARCHAR(36)  | PRIMARY KEY            | Unique record identifier (UUID)          |
 | flight_id     | VARCHAR(36)  | NOT NULL, FOREIGN KEY  | References Flight.id                     |
 | seat_id       | VARCHAR(36)  | NOT NULL, FOREIGN KEY  | References Seat.id                       |
-| is_available  | BOOLEAN      | NOT NULL, DEFAULT TRUE | Whether the seat is available for booking|
+| seat_status   | VARCHAR(20)  | NOT NULL, DEFAULT AVAILABLE | Seat Status: AVAILABLE, OCCUPIED, RESERVED|
 | price         | DECIMAL(10,2)| NOT NULL               | Price for this seat on this flight (may differ by class) |
 | created_at    | TIMESTAMP    | NOT NULL, DEFAULT NOW  | Record creation timestamp                |
 | updated_at    | TIMESTAMP    | NOT NULL, DEFAULT NOW  | Record last update timestamp             |
@@ -104,13 +88,11 @@
 **Indexes:**
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on (`flight_id`, `seat_id`)
-- INDEX on (`flight_id`, `is_available`)
+- INDEX on (`flight_id`, `seat_status`)
 - FOREIGN KEY: `flight_id` REFERENCES `Flight(id)` ON DELETE CASCADE
 - FOREIGN KEY: `seat_id` REFERENCES `Seat(id)` ON DELETE CASCADE
 
----
-
-## Table: Booking
+### Table: Booking
 
 | Column Name      | Data Type    | Constraints            | Description                              |
 |------------------|--------------|------------------------|------------------------------------------|
@@ -128,16 +110,11 @@
 **Indexes:**
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on `booking_ref`
-- INDEX on `passenger_id`
-- INDEX on `flight_id`
-- INDEX on `status`
 - FOREIGN KEY: `passenger_id` REFERENCES `Passenger(id)`
 - FOREIGN KEY: `flight_id` REFERENCES `Flight(id)`
 - FOREIGN KEY: `seat_id` REFERENCES `Seat(id)` ON DELETE SET NULL
 
----
-
-## Table: Payment
+### Table: Payment
 
 | Column Name      | Data Type    | Constraints            | Description                              |
 |------------------|--------------|------------------------|------------------------------------------|
@@ -153,12 +130,9 @@
 
 **Indexes:**
 - PRIMARY KEY on `id`
-- INDEX on `booking_id`
-- INDEX on `status`
+- INDEX on (`booking_id`, `status`)
 - UNIQUE INDEX on `transaction_id` (when NOT NULL)
 - FOREIGN KEY: `booking_id` REFERENCES `Booking(id)` ON DELETE CASCADE
-
----
 
 ## Relationships
 
@@ -192,8 +166,6 @@
    - One booking has one or more payment records (e.g., refund creates new record)
    - `Payment.booking_id` references `Booking.id`
 
----
-
 ## Entity Relationship Summary
 
 ```
@@ -209,17 +181,13 @@ Booking (1) ──→ (1) Seat [assigned seat]
 Booking (1) ──→ (M) Payment
 ```
 
----
-
 ## Normalization Notes
 
 - **3rd Normal Form (3NF)** achieved
 - `FlightSeatAvailability` is a junction table resolving the M:N relationship between `Flight` and `Seat`, and also stores per-flight seat pricing
-- Seat availability (`is_available`) is tracked per flight instance, not per aircraft, allowing the same physical seat to be available on different flights
+- Seat availability (`seat_status`) is tracked per flight instance, not per aircraft, allowing the same physical seat to be available on different flights
 - `Booking.seat_id` is nullable to support bookings where seat selection is deferred
 - Payment records are append-only (new row per transaction) to maintain an audit trail for refunds and retries
-
----
 
 ## Additional Considerations
 
@@ -234,8 +202,6 @@ Booking (1) ──→ (M) Payment
 - Add `FlightRoute` table to support multi-hop itineraries
 - Add `Waitlist` table for cancelled-seat notifications
 - Add `Notification` table for booking confirmations and alerts
-
----
 
 Document Version: 1.0
 Last Updated: March 21, 2026
