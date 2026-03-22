@@ -25,8 +25,6 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - email: string
 - phone: string
 - passportNumber: string | null
-- createdAt: Date
-- updatedAt: Date
 
 **Methods:**
 - constructor(name, email, phone, passportNumber?, id?)
@@ -46,8 +44,6 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - registration: string
 - model: string
 - seats: Map<string, Seat>
-- createdAt: Date
-- updatedAt: Date
 
 **Methods:**
 - constructor(registration, model, id?)
@@ -94,8 +90,6 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - status: FlightStatus (enum)
 - basePrice: number
 - seatAvailability: Map<string, FlightSeat>
-- createdAt: Date
-- updatedAt: Date
 
 **Methods:**
 - constructor(flightNumber, aircraft, source, destination, departureTime, arrivalTime, basePrice, id?)
@@ -175,7 +169,6 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - status: PaymentStatus (enum)
 - transactionId: string | null
 - processedAt: Date | null
-- createdAt: Date
 
 **Methods:**
 - constructor(bookingId, amount, paymentMethod, id?)
@@ -466,13 +459,13 @@ enum PaymentStatus { PENDING, SUCCESS, FAILED, REFUNDED }
 
 ---
 
-✅ **Design Patterns Used:** 5 (Singleton ×3, State, Strategy ×2, Observer, Repository)
-✅ **Core Model Classes:** 7 (Passenger, Aircraft, Seat, FlightSeat, Flight, Booking, Payment)
-✅ **Service Classes:** 4 (PassengerService, FlightService, BookingService, SetupService)
-✅ **Repository Classes:** 5
-✅ **Interfaces:** 5 (IBookingState, IPaymentMethod, IFlightSortStrategy, IBookingObserver, IRepository)
-✅ **State Classes:** 4 (Pending, Confirmed, Rescheduled, Cancelled)
-✅ **Strategy Classes:** 7 (4 payment + 3 sort)
-✅ **Observer Classes:** 2 (EmailNotifier, SMSNotifier)
-✅ **Singleton Classes:** 3 (InMemoryDatabase, SeatLockManager, BookingNotifier)
-✅ **Total Entities:** 36+
+- **Design Patterns Used:** 5 (Singleton ×3, State, Strategy ×2, Observer, Repository)
+- **Core Model Classes:** 7 (Passenger, Aircraft, Seat, FlightSeat, Flight, Booking, Payment)
+- **Service Classes:** 4 (PassengerService, FlightService, BookingService, SetupService)
+- **Repository Classes:** 5
+- **Interfaces:** 5 (IBookingState, IPaymentMethod, IFlightSortStrategy, IBookingObserver, IRepository)
+- **State Classes:** 4 (Pending, Confirmed, Rescheduled, Cancelled)
+- **Strategy Classes:** 7 (4 payment + 3 sort)
+- **Observer Classes:** 2 (EmailNotifier, SMSNotifier)
+- **Singleton Classes:** 3 (InMemoryDatabase, SeatLockManager, BookingNotifier)
+- **Total Entities:** 36+
