@@ -25,6 +25,8 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - email: string
 - phone: string
 - passportNumber: string | null
+- createdAt: Date
+- updatedAt: Date
 
 **Methods:**
 - constructor(name, email, phone, passportNumber?, id?)
@@ -44,6 +46,8 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - registration: string
 - model: string
 - seats: Map<string, Seat>
+- createdAt: Date
+- updatedAt: Date
 
 **Methods:**
 - constructor(registration, model, id?)
@@ -90,6 +94,8 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - status: FlightStatus (enum)
 - basePrice: number
 - seatAvailability: Map<string, FlightSeat>
+- createdAt: Date
+- updatedAt: Date
 
 **Methods:**
 - constructor(flightNumber, aircraft, source, destination, departureTime, arrivalTime, basePrice, id?)
@@ -169,6 +175,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 - status: PaymentStatus (enum)
 - transactionId: string | null
 - processedAt: Date | null
+- createdAt: Date
 
 **Methods:**
 - constructor(bookingId, amount, paymentMethod, id?)
