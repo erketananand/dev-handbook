@@ -1,0 +1,19 @@
+{
+  "name": "car-rental-system",
+  "version": "1.0.0",
+  "description": "Car Rental System - LLD Implementation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": ["lld", "typescript", "car-rental", "design-patterns", "booking"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.1"
+  }
+}
