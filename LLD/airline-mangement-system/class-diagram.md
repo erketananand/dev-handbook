@@ -40,7 +40,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 3. Aircraft
+### 2. Aircraft
 **Attributes:**
 - id: string (UUID)
 - registration: string
@@ -64,7 +64,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 4. Seat
+### 3. Seat
 **Attributes:**
 - id: string (UUID)
 - aircraftId: string
@@ -82,7 +82,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 5. Flight
+### 4. Flight
 **Attributes:**
 - id: string (UUID)
 - flightNumber: string
@@ -117,7 +117,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 6. FlightSeat *(Value Object)*
+### 5. FlightSeat *(Value Object)*
 **Attributes:**
 - seat: Seat
 - isAvailable: boolean
@@ -134,7 +134,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 7. Booking
+### 6. Booking
 **Attributes:**
 - id: string (UUID)
 - bookingRef: string (PNR)
@@ -166,7 +166,7 @@ InMemoryDatabase (Singleton) — stores Maps + secondary indexes
 
 ---
 
-### 8. Payment
+### 7. Payment
 **Attributes:**
 - id: string (UUID)
 - bookingId: string
