@@ -1,0 +1,26 @@
+{
+  "name": "upi-system",
+  "version": "1.0.0",
+  "description": "UPI System - Low Level Design Implementation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/console/examples.js",
+    "dev": "ts-node src/console/examples.ts"
+  },
+  "keywords": [
+    "upi",
+    "payment",
+    "low-level-design",
+    "system-design",
+    "typescript"
+  ],
+  "author": "LLD Course",
+  "license": "Educational",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
