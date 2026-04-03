@@ -384,6 +384,93 @@ service.registerUser("John"); // ✅ No database needed
 
 ## Design Patterns
 
+### 🔴 MANDATORY: Explicit Design Pattern Implementation
+
+**Requirement**: For any eligible design pattern identified in a system, you MUST create explicit, dedicated classes and/or interfaces rather than relying on implicit implementations.
+
+**Rationale**:
+- **Clarity**: Explicit implementations make design patterns immediately obvious to readers
+- **Maintainability**: Named pattern classes document intent
+- **Extensibility**: Clear contracts make it easier to add new implementations
+- **Collaboration**: Team members can easily understand and modify pattern implementations
+- **Testing**: Explicit classes are easier to mock and unit test
+
+**Implementation Rules**:
+
+1. **If you identify a pattern is needed** → Create dedicated interface/class for it
+2. **When using Strategy Pattern** → Create explicit `*Strategy` interfaces and concrete implementations
+3. **When using Factory Pattern** → Create dedicated `*Factory` classes with static creation methods
+4. **When using Builder Pattern** → Create explicit `*Builder` classes
+5. **When using Repository Pattern** → Create explicit `*Repository` classes implementing `IRepository<T>`
+6. **Folder Structure**: Organize patterns in dedicated folders:
+   ```
+   src/
+   ├── patterns/
+   │   ├── strategies/        # Strategy pattern implementations
+   │   │   ├── XyzStrategy.ts (interface)
+   │   │   ├── ConcreteStrategyA.ts
+   │   │   └── ConcreteStrategyB.ts
+   │   ├── factories/         # Factory pattern implementations
+   │   │   ├── XyzFactory.ts
+   │   │   └── index.ts
+   │   └── index.ts
+   ```
+
+**Example: LinkedIn System**
+```typescript
+// ✅ Good: Explicit Strategy Pattern
+// patterns/strategies/PostStrategy.ts
+export interface PostStrategy {
+  validatePost(content: string): boolean;
+  getDefaultVisibility(): string;
+}
+
+// patterns/strategies/ArticlePostStrategy.ts
+export class ArticlePostStrategy implements PostStrategy {
+  validatePost(content: string): boolean {
+    return content.trim().length >= 100;
+  }
+  getDefaultVisibility(): string {
+    return "PUBLIC";
+  }
+}
+
+// ✅ Good: Explicit Factory Pattern
+// patterns/factories/PostFactory.ts
+export class PostFactory {
+  static createPost(userId: UUID, content: string, strategy: PostStrategy): Post {
+    if (!strategy.validatePost(content)) throw new Error("Invalid");
+    return new Post(userId, content, strategy.getDefaultVisibility());
+  }
+}
+```
+
+**Anti-Pattern (❌ Don't Do This)**:
+```typescript
+// ❌ Bad: Implicit pattern hidden in service
+class PostService {
+  createPost(userId: UUID, content: string, postType: string): Post {
+    // Strategy pattern logic hidden here
+    if (postType === 'ARTICLE') {
+      if (content.length < 100) throw new Error("...");
+      return new Post(userId, content, 'PUBLIC');
+    } else if (postType === 'ACHIEVEMENT') {
+      // More scattered logic...
+    }
+  }
+}
+```
+
+**Checklist**:
+- ✅ Identified patterns have dedicated files/classes
+- ✅ Pattern interfaces/classes are clearly named
+- ✅ Each pattern has a `patterns/` folder
+- ✅ Pattern implementations are testable in isolation
+- ✅ Public API exports patterns for reusability
+- ✅ Documentation explains when/how to use each pattern
+
+---
+
 ### Creational Patterns
 
 #### 1. Factory Pattern
