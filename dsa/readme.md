@@ -4,6 +4,7 @@
 - https://docs.google.com/document/d/1MIVVFQzMmvudJeWnLkqx4ZkHzkGbj11G/edit?usp=share_link&ouid=115221156995892045650&rtpof=true&sd=true
 
 - https://github.com/yash7xm/cp_notes
+- https://github.com/yash7xm/cp-topics
 
 - https://algomaster.io/practice/dsa-patterns
 - https://github.com/ashishps1/awesome-leetcode-resources
